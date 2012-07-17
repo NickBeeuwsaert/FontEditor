@@ -1,1 +1,0 @@
-{"ts":1341026709481,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"function lpad(string, char, length){while(string.length < length) string = char+string; return string;}"]],"start1":0,"start2":0,"length1":0,"length2":103}]],"length":103}
