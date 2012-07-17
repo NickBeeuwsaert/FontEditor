@@ -1,0 +1,1 @@
+function lpad(string, char, length){while(string.length < length) string = char+string; return string;}

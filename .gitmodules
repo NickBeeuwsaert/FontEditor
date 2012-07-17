@@ -1,0 +1,6 @@
+[submodule "scripts/superCanvas"]
+	path = scripts/superCanvas
+	url = https://github.com/r4z0rw0lf/SuperCanvas.git
+[submodule "scripts/flexie"]
+	path = scripts/flexie
+	url = https://github.com/r4z0rw0lf/flexie.git

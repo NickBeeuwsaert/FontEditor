@@ -1,0 +1,26 @@
+.vector {
+background-image: url(/famfamfam/vector.png);
+}
+.freehand {
+background-image: url(/famfamfam/pencil.png);
+}
+ul.toolPalette li {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+ul.toolPalette li:hover {
+    border: 1px solid #7c7c71;
+    box-shadow: 0 1px 0 #ccc;
+    /*box-shadow: 0 1px 0px #eee,
+                0 2px 3px #aaa,
+                5px 0 9px #eee inset;*/
+}
+ul.toolPalette li:active {
+    border: 1px solid #7c7c71;
+    box-shadow: 0 -1px 0 #ccc;
+}

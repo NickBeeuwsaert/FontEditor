@@ -1,0 +1,13 @@
+.glyphs {
+    list-style-type: none;
+    height:  100%;
+    resize: none;
+    overflow: scroll;
+}
+.glyphs li {
+    border: 1px solid black;
+    margin: 3px;
+    height: 48px;
+    width: 32px;
+    display: inline-block;
+}

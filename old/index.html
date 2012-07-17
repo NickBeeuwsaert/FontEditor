@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KernerStone</title>
+    <script src="require.js"></script>
+    <link href="reset.css" type="text/css" rel="stylesheet" />
+    <link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<div class="editor">
+<ul class="tabs">
+    <li>OMG</li>
+    <li>These Tabs</li>
+    <li>are</li>
+    <li>pretty</li>
+    <li>sexy</li>
+    <li>d00d</li>
+    <li class="left disabled scroll">&#9658;</li>
+    <li class="right disabled scroll">&#9668;</li>
+</ul>
+</div>
+<script>
+        var Win;
+        require("util.js", function(){
+            console.log(arguments);
+            require("AppWindow.js", function(){
+                //require('fontEditor.js', function(){
+                //new fontEditor();
+                //});
+                require('tabs.js', function(){});
+                toolbox  =new AppWindow({"title": "Tools"});
+                //build the glyphs
+                ul = util.create({"name": "ul", properties: {"className": "glyphs"}});
+                
+                for(var i = 0; i < 255; i++){
+                    ul.appendChild(util.create({
+                        "name": "li",
+                        "children":[
+                            {"name": "div"},
+                            {"name": "img"},
+                        ]
+                        }));
+                }
+                glyphs = new AppWindow({"title": "Glyphs", content:ul});
+                //require('chooseWallpaper.js');
+            });
+            require("background.js");
+        });
+</script>
+</body>
+</html>
