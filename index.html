@@ -10,7 +10,9 @@
 <script src="font/font.js"></script><!-- remove this later, load the font with AJAX or jsonp -->
 <script src="scripts/TabBar.js"></script>
 <script src="scripts/util.js"></script>
-<script src="plugons/test.js"></script>
+<script src="plugins/ToolManager.js"></script>
+<script src="plugins/test.js"></script>
+<script src="plugins/pen.js"></script>
 </head>
 <body>
 <div class="flexBox" data-flex data-flex-direction="vertical">
@@ -33,7 +35,7 @@
         </div>
     </div>
     <div class="editorArea" data-flex-weight="1" data-flex data-flex-direction="horizontal">
-        <div class = "toolbox">
+        <div class="toolbox" id="toolbox">
         </div>
         <div class="contentView" data-flex-weight="1" style="height:100%">
         </div>

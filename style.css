@@ -124,6 +124,9 @@
     box-shadow: 0 1px 0 rgba(255,255,255,0.5);
     background-repeat: no-repeat; background-position: center center;
 }
+.toolbox .active {
+    background-color: red;
+}
 html, body {
     margin: 0;
     padding: 0;

@@ -25,7 +25,7 @@ function Editor(font, glyph){
         };
     //convert all shorthand curves = longhand...
     // I don't know if shorthand curves should be kept in or not
-    if(1){
+    if(0){
         var lastCP = {x: 0, y: 0};
         for(var i = 0; i < data.pathData.length; i++){
             var path = data.pathData[i];
@@ -47,7 +47,7 @@ function Editor(font, glyph){
             }
         }
     }
-    if(1){
+    if(0){
         var lastCoords = {x: 0, y: 0};
         for(var i = 0; i < data.pathData.length; i++){
             var path = data.pathData[i];
@@ -80,9 +80,9 @@ function Editor(font, glyph){
         context.scale(data.zoom, data.zoom);
         context.beginPath();
         context.drawPath(data.pathData);
-        context.closePath();
         context.restore();
         context.stroke();
+        context.closePath();
         //Start drawing control points....
         context.save();
         
@@ -231,16 +231,18 @@ function Editor(font, glyph){
         context.restore();
         
         context.closePath();
-
+        PluginFactory.emit("draw", context);
         if(data.painting)
             window.requestAnimationFrame(draw);
     }
     var mouseHandler = function(e){
+        e.preventDefault();
         var coords = {x: e.pageX-this.offsetLeft, y: e.pageY-this.offsetTop};
         var rel = {x:coords.x-mouseCoords.x, y:coords.y - mouseCoords.y};
         relMouseCoords = rel;
         mouseCoords = coords;
-        if(mouseDown){
+        PluginFactory.emit(e.type, {which: e.which, coords: coords,rel: rel});
+        /*if(mouseDown){
             if(data.selectedNodes.length===0 || e.ctrlKey){
                 data.translate.x+=rel.x;
                 data.translate.y+=rel.y;
@@ -249,7 +251,7 @@ function Editor(font, glyph){
                     var p = data.pathData[data.selectedNodes[i]];
                     if(p[0] == "Q"){
                         for(var e = 1; e < (p.length-1)/2; e++){
-                            console.log(p[0], e*2-1, e*2, p.length-2, p.length-1);
+                            //console.log(p[0], e*2-1, e*2, p.length-2, p.length-1);
                             p[e*2-1] = parseFloat(p[e*2-1]) + rel.x/data.zoom;
                             p[e*2]   = parseFloat( p[e*2] ) - rel.y/data.zoom
                         }
@@ -271,11 +273,12 @@ function Editor(font, glyph){
             data.canvas.style.cursor="move";
         }else{
             data.canvas.style.cursor="auto";
-        }
+        }*/
     };
     data.canvas.addEventListener("mousemove", mouseHandler, false);
     data.canvas.addEventListener("mouseup", mouseHandler, false);
     data.canvas.addEventListener("mousedown", mouseHandler, false);
+    data.canvas.addEventListener("contextmenu", function(e){e.preventDefault(); e.stopPropagation(); return false;}, false);
     data.canvas.addEventListener("contextmenu", function(e){
         if(e.ctrlKey){
             e.preventDefault();
@@ -284,7 +287,7 @@ function Editor(font, glyph){
     },false);
     data.canvas.addEventListener("mousedown", function(e){
         mouseDown  = true;
-        if(!e.ctrlKey){
+        /*if(!e.ctrlKey){
             var emptyTheSelection = true;
             for(var i = 0; i < data.pathData.length; i++){
                 var path = data.pathData[i];
@@ -311,7 +314,7 @@ function Editor(font, glyph){
             }
             if(emptyTheSelection)
                 data.selectedNodes = [];
-        }
+        }*/
     }, false);
     data.canvas.addEventListener("mouseup", function(e){
         mouseDown  = false;
@@ -345,10 +348,12 @@ function fontEditor(font, tabs, outputs){
     data.openGlyph = function(glyph){
             var editor = Editor(data.font, glyph);
             var tab = tabs.Tab(editor.getName(), editor.canvas, function(){
+              PluginFactory.emit("glyph_activate", editor);
                 data.currentEditor = editor;
                 data.currentEditor.startPainting();
                 outputs.zoom.value = data.currentEditor.zoom*100;
                 }, function(){
+                  PluginFactory.emit("glyph_deactivate", editor);
                     editor.painting = false;
                 });
             data.editors.push(editor);

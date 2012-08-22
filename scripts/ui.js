@@ -15,7 +15,7 @@ for(var i =0; i < items.length; i++){
         ctx.beginPath();
         var transforms = (element.getAttribute("transform")||"").match(/([a-z]+\([0-9\.\-,]*\))/ig)||[];
         for(var t = 0; t < transforms.length; t++){
-            console.log(transforms[t]);
+            //console.log(transforms[t]);
             var command = transforms[t].match(/(^[a-z]+|[0-9\.\-]+)/g);
             var func = command.shift();
             if(transformFunctions.indexOf(func)!== -1)
