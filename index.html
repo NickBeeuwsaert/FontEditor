@@ -3,6 +3,7 @@
 <head>
 <title>Hi there!</title>
 <link rel="stylesheet" type="text/css" href="style.css"/>
+<script src="scripts/animationShiv.js"></script>
 <script src="scripts/PluginFactory.js"></script>
 <script src="scripts/superCanvas/superCanvas.js"></script>
 <script src="scripts/flexie/flexie.js"></script>
@@ -18,17 +19,20 @@
 <div class="flexBox" data-flex data-flex-direction="vertical">
     <div class="header">
         <div class="toolbar">
-            <div class="toolbarItem">
+            <div class="toolbarItem" data-group="views">
                 <canvas icon-id="floppy_disk" color="#444" width="32" height="32" transform="scale(0.5,0.5)"></canvas>
             </div>
-            <div class="toolbarItem selected">
+            <div class="toolbarItem selected" data-group="views">
                 <canvas icon-id="new_page" color="#444" width="32" height="32" transform="scale(0.5,0.5)"></canvas>
             </div>
-            <div class="toolbarItem">
+            <div class="toolbarItem" data-group="views">
                 <canvas icon-id="pen" color="#444" width="32" height="32"></canvas>
             </div>
             <div class="right toolbarItem">
                 <canvas icon-id="help" color="#444" width="32" height="32"></canvas>
+            </div>
+            <div class="right toolbarItem settings">
+                <canvas icon-id="settings" color="#444" width="32" height="32"></canvas>
             </div>
         </div>
         <div class="tabBar">
@@ -38,6 +42,8 @@
         <div class="toolbox" id="toolbox">
         </div>
         <div class="contentView" data-flex-weight="1" style="height:100%">
+        </div>
+        <div class="options">
         </div>
     </div>
     <div class="statusbar" data-flex data-flex-direction="horizontal">
@@ -83,6 +89,7 @@ outputs.zoom.addEventListener("change", function(e){
     if(fontEditor.currentEditor)
         fontEditor.currentEditor.zoom = this.value/100;
 }, false);
+
 
 </script>
 </body>

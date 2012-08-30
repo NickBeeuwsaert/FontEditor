@@ -112,10 +112,18 @@
 }
 .toolbox {
     width:32px;
+}
+.options {
+    width: 0px;
+}
+.options.closed {
+    width: 0px;
+}
+.toolbox, .options {
     height:100%;
-    box-shadow: 0 0 5px #333 inset;
+    box-shadow: 0 0 10px #222 inset;
     background-color: #777;
-    background-image:url(images/speckle.png)
+    background-image:url(images/linen.png)
 }
 .toolbox div {
     width: 32px;
@@ -125,7 +133,7 @@
     background-repeat: no-repeat; background-position: center center;
 }
 .toolbox .active {
-    background-color: red;
+    background-color: rgba(255,255,255,0.2);
 }
 html, body {
     margin: 0;

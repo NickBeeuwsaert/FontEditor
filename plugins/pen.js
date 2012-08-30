@@ -3,6 +3,15 @@ PluginFactory.register("TestTool", function(){
 	var currentPath = [];
 	var currentPoint = {x: 0, y: 0};
 	var cp = [{x:0, y: 0}, {x: 0, y: 0}];
+
+	var snap = function(p, a){
+		var distance = Math.sqrt(Math.pow(p.x,2) + Math.pow(p.y, 2));
+		var angle = Math.atan2(p.y, p.x);
+		angle = (Math.round(angle / a) * a);
+		return {x: distance * Math.cos(angle),
+			 y: distance * Math.sin(angle)};
+
+	};
     PluginFactory.emit("register_tool", {"icon":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA9klEQVQ4T2NkIB4IAJXKA/FFZC2MROi3B6rZB8QHgdgRiPOBeBJMHzEG7AYqFgZiQyTLQOwLID4hA0DO7gVif6ghID11QNxMrAvigAprgFgVqgHkFWdSwuAOULEyVMMHqDceEGsAyOlFSIpB3tiErBlfGID8fguIRaEa5gPpJHTN+AxYDZQMgWo4D6SdgBjkBQyALRbygKomIqk0ALJREg++MNAHSp4BYhaoIpREQ4wL1gAVBQExyGXrgDgYmyZcLlAASoDiHBTSoEADRR9Wf+MyAJRoQPgTEBcC8UNCtoPkkQNxDpB/GS0ACZqBbAAo7gk6Gd1EAK3yIxFLHOZbAAAAAElFTkSuQmCC",
     	
 		mousedown: function(editor, data){
@@ -50,17 +59,33 @@ PluginFactory.register("TestTool", function(){
 			}
 		},
 		mousemove: function(editor, data){
+			//console.log(data.modifiers);
 			var x = (data.coords.x-editor.translate.x)/editor.zoom,
 				y = ((editor.canvas.height-data.coords.y)+editor.translate.y)/editor.zoom;
+			var pos = {x: x-currentPoint.x , y: y-currentPoint.y};
 			if(data.which == 1){
-				cp[1].x -= data.rel.x / editor.zoom;
-				cp[1].y += data.rel.y / editor.zoom;
+				//cp[1].x -= data.rel.x / editor.zoom;
+				//cp[1].y += data.rel.y / editor.zoom;
+				cp[1].x = pos.x;
+				cp[1].y = pos.y;
+				if(data.modifiers & 1<<0){
+					var p = snap(pos, 15*(Math.PI/180));
+					cp[1].x = p.x;
+					cp[1].y = p.y;
 
+				}
 			}else if(data.which == 3){
 				//
 			}else{
 				currentPoint.x = x;
 				currentPoint.y = y;
+				if(data.modifiers & 1<<0 && currentPath.length > 0){
+					var coords = currentPath[currentPath.length-1].slice(-2);
+					var p = snap({x: (currentPoint.x - coords[0]), y: (currentPoint.y - coords[1])}, 15*(Math.PI/180));
+					currentPoint.x = coords[0] + p.x;
+					currentPoint.y = coords[1]+p.y;
+
+				}
 			}
 			//cp[0].x += data.rel.x;
 			//cp[0].y += data.rel.y;

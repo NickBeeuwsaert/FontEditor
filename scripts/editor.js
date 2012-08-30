@@ -1,13 +1,5 @@
 
-(function(){
-    var prefix = ["webkit","moz", "o"];
-    if(!window.requestAnimationFrame){
-        window.requestAnimationFrame = function(fn){setTimeout(fn, 10);};
-        for(var i = 0; i < prefix.length; i++)
-            if(window[prefix[i]+"RequestAnimationFrame"])
-                window.requestAnimationFrame = window[prefix[i]+"RequestAnimationFrame"];
-    }
-})();
+
 function Editor(font, glyph){
     var data = {
         font: font,
@@ -23,6 +15,7 @@ function Editor(font, glyph){
             return glyph+" U+"+lpad(glyph.charCodeAt(0).toString(16),"0", 4);
         }
         };
+
     //convert all shorthand curves = longhand...
     // I don't know if shorthand curves should be kept in or not
     if(0){
@@ -234,14 +227,26 @@ function Editor(font, glyph){
         PluginFactory.emit("draw", context);
         if(data.painting)
             window.requestAnimationFrame(draw);
-    }
+    };
     var mouseHandler = function(e){
         e.preventDefault();
         var coords = {x: e.pageX-this.offsetLeft, y: e.pageY-this.offsetTop};
         var rel = {x:coords.x-mouseCoords.x, y:coords.y - mouseCoords.y};
         relMouseCoords = rel;
         mouseCoords = coords;
-        PluginFactory.emit(e.type, {which: e.which, coords: coords,rel: rel});
+        var modifiers = 0;
+        var ctrl = 1 << 0;
+        var alt = 1 << 1;
+        var shift = 1 << 2;
+        if(e.ctrlKey){
+          modifiers |= ctrl;
+        }else if(e.altKey){
+          modifiers |= alt;
+        }else if(e.shiftKey){
+          modifiers |= shift;
+        }
+
+        PluginFactory.emit(e.type, {which: e.which, coords: coords,rel: rel, modifiers: modifiers});
         /*if(mouseDown){
             if(data.selectedNodes.length===0 || e.ctrlKey){
                 data.translate.x+=rel.x;
@@ -331,6 +336,25 @@ function fontEditor(font, tabs, outputs){
         'editors': [],
         'currentEditor': undefined
     };
+
+    var keyHandler = function(e){
+        var modifiers = 0;
+        var ctrl = 1 << 0;
+        var alt = 1 << 1;
+        var shift = 1 << 2;
+        if(e.ctrlKey){
+          modifiers |= ctrl;
+        }else if(e.altKey){
+          modifiers |= alt;
+        }else if(e.shiftKey){
+          modifiers |= shift;
+        }
+        //console.log(modifiers.toString(2));
+        //console.log("ASDF");
+        PluginFactory.emit(e.type, {code: e.keyCode, modifiers: modifiers});
+    };
+    document.addEventListener("keydown", keyHandler, false);
+    document.addEventListener("keyup", keyHandler, false);
     function activateHandler(editor){
         return function(){
             data.currentEditor = editor;
