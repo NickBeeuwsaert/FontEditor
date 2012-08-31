@@ -230,7 +230,7 @@ function Editor(font, glyph){
     };
     var mouseHandler = function(e){
         e.preventDefault();
-        var coords = {x: e.pageX-this.offsetLeft, y: e.pageY-this.offsetTop};
+        var coords = {x: e.offsetX/*-this.offsetLeft*/, y: e.offsetY/*-this.offsetTop*/};
         var rel = {x:coords.x-mouseCoords.x, y:coords.y - mouseCoords.y};
         relMouseCoords = rel;
         mouseCoords = coords;

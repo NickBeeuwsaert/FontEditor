@@ -26,6 +26,9 @@ PluginFactory.register("TestTool", function(){
 					return true;
 				}
 			}
-		}
+		},
+		tool_options: [
+			BoolProperty("Boobs!", false)
+		]
 		});
 });

@@ -206,6 +206,9 @@ PluginFactory.register("TestTool", function(){
 				}
 				context.closePath();
 				context.restore();*/
-		}
+		},
+		"tool_options":[
+			BoolProperty("Smooth", true),
+			IntProperty("Poiple!", 0,100,5,50),]
 		});
 });

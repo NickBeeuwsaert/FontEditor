@@ -21,6 +21,7 @@ function TabBar(tabBar, container){
         }
         labelElement.appendChild(label);
         var containerElement = document.createElement("div");
+        addClass(containerElement, "tabContent");
         containerElement.style.display="none";
         containerElement.appendChild(child);
         data.tabContainer.appendChild(labelElement);
